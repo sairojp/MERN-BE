@@ -1,4 +1,4 @@
-[
+
 {
   "email": "test@test.com",
   "username": "sairoj",
@@ -12,4 +12,3 @@
   "followers": ["username123", "user234", "user543"],
   "followings": ["username123", "user234", "user543", "user555"]
 }
-]
