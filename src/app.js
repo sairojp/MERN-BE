@@ -147,8 +147,14 @@ app.get("/api/v1/user", async (req, res) => {
   res.status(200).send(user[0]);
 });
 
-app.post("/api/v1/user", (req ,resp )=> {
-  const id = req.query.id;
+app.post("/api/v1/user", async (req ,resp )=> {
+  const lastUser = await User.findOne({},null ,
+    {sort : {id : -1}}) ;
+
+  let id = 1;
+  if (lastUser) {
+    id = lastUser.id + 1;
+  }
   const newUser ={
     email: "test@test.com",
     username: "sairoj",
