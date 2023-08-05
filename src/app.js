@@ -29,17 +29,6 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("user", userSchema);
 
-// not needed 
-// User.createCollection()
-//   .then((col) => {
-//     console.log("collection", col, "created");
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
-
-
-
 
 
 const postSchema = new mongoose.Schema([
@@ -65,13 +54,7 @@ const postSchema = new mongoose.Schema([
 
 
 const Post = mongoose.model("post", postSchema);
-Post.createCollection()
-  .then((col) => {
-    console.log("collection", col, "created");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+
 
 
 
