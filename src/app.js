@@ -2,8 +2,10 @@ const express = require("express");
 const fs = require("fs");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser")
 
 const app = express();
+app.use(bodyParser.json())
 const PORT = 5000;
 app.use(cors());
 
@@ -15,6 +17,7 @@ mongoose.connect(mongoDbURI, {
 
 const userSchema = new mongoose.Schema({
   email: String,
+  password: String,
   username: String,
   fullname: String,
   title: String,
@@ -134,23 +137,25 @@ app.get("/api/v1/user", async (req, res) => {
 app.post("/api/v1/user", async (req ,resp )=> {
   const lastUser = await User.findOne({},null ,
     {sort : {id : -1}}) ;
-
+  
+    const {username, email, fullname, title, job_type,skills, address, password} = req.body;
   let id = 1;
   if (lastUser) {
     id = lastUser.id + 1;
   }
   const newUser ={
-    email: "test@test.com",
-    username: "sairoj",
-    fullname: "Sairoj Prasai",
-    title: "Software Developer",
-    skills: ["J5", "PHP", "JAVA"],
-    address: "Kathmandu,Nepal",
-    job_type: "Full Time",
-    id: id,
-    is_active: true,
+    email,
+    username,
+    fullname,
+    title,
+    skills,
+    address,
+    job_type,
+    id,
+    is_active:true,
     followers: [],
     followings: [],
+    password,
   }
   User.create(newUser).then((createdUser) => {
     console.log("User created");
