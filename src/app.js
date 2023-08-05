@@ -29,13 +29,14 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("user", userSchema);
 
-User.createCollection()
-  .then((col) => {
-    console.log("collection", col, "created");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+// not needed 
+// User.createCollection()
+//   .then((col) => {
+//     console.log("collection", col, "created");
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
 
 
 
