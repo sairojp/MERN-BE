@@ -18,7 +18,7 @@ mongoose.connect(mongoDbURI, {
 const userSchema = new mongoose.Schema({
   email: String,
   password: String,
-  username: String,
+  username: {type : String,unique : true},
   fullname: String,
   title: String,
   skills: [{ type: String }],
@@ -62,60 +62,6 @@ const Post = mongoose.model("post", postSchema);
 
 
 
-// Post.create([
-//   {
-//     title: "PHP Developer Required",
-//     description: "For a client project PHP Developer is required",
-//     location: "Kathmandu",
-//     job_type: "Full Time",
-//     pay_rate_per_hr_dollar: 10.0,
-//     skills: ["PHP", "JS", "HTML"],
-//     liked_by: ["test111", "test1", "test123"],
-//     viewed_by: ["test111", "test1", "test123"],
-//     id: 2,
-//     user_id: 1,
-//     post_by_username: "test123",
-//     post_by_fullname: "Test User",
-//     post_date: "2023-06-10T09:24:07.659034",
-//     comments: [],
-//   },
-//   {
-//     title: "PHP Developer Required",
-//     description: "For a client project PHP Developer is required",
-//     location: "Kathmandu",
-//     job_type: "Full Time",
-//     pay_rate_per_hr_dollar: 10.0,
-//     skills: ["PHP", "JS", "HTML"],
-//     liked_by: ["test111", "test1", "test123"],
-//     viewed_by: ["test111", "test1", "test123"],
-//     id: 3,
-//     user_id: 2,
-//     post_by_username: "test321",
-//     post_by_fullname: "Test User2",
-//     post_date: "2023-06-10T21:51:10.643105",
-//     comments: [],
-//   },
-//   {
-//     title: "PHP Developer Required",
-//     description: "For a client project PHP Developer is required",
-//     location: "Kathmandu",
-//     job_type: "Full Time",
-//     pay_rate_per_hr_dollar: 10.0,
-//     skills: ["PHP", "JS", "HTML"],
-//     liked_by: ["test111", "test1", "test123"],
-//     viewed_by: ["test111", "test1", "test123"],
-//     id: 4,
-//     user_id: 3,
-//     post_by_username: "test111",
-//     post_by_fullname: "Test User2",
-//     post_date: "2023-06-10T21:53:40.698655",
-//     comments: [],
-//   },
-// ]);
-
-
-
-
 
 app.get("/", (req, res) => {
   res.status(200).send("This is response from BE");
@@ -135,14 +81,21 @@ app.get("/api/v1/user", async (req, res) => {
 });
 
 app.post("/api/v1/user", async (req ,resp )=> {
-  const lastUser = await User.findOne({},null ,
-    {sort : {id : -1}}) ;
+  const lastUser = await User.findOne({},null ,{sort : {id : -1}}) ;
   
-    const {username, email, fullname, title, job_type,skills, address, password} = req.body;
+  const {username, email, fullname, title, job_type,skills, address, password} = req.body;
+
+  // checks if same username already exists
+  const usernameUser = await User.findOne({ username});
+  if(usernameUser){
+    return resp.status(404).send({error : "Username already taken"});
+  }
+
+
   let id = 1;
   if (lastUser) {
     id = lastUser.id + 1;
-  }
+  } 
   const newUser ={
     email,
     username,
@@ -160,8 +113,29 @@ app.post("/api/v1/user", async (req ,resp )=> {
   User.create(newUser).then((createdUser) => {
     console.log("User created");
     resp.status(200).send(createdUser);
+  })
+  .catch((err)=>{
+    console.error(err);
+    resp.status(500).send({error : "Can not process your request"})
   });
-})
+});
+
+
+// login api
+app.post("/api/v1/login", async (req ,resp )=> {
+
+  // checks if same username already exists
+  const user= await User.findOne({ 
+    username:req.body.username,
+    password:req.body.password,
+    is_active: true,});
+    
+  if(user){
+    resp.status(200).send({ message: "Login successfull" });
+  }else{
+    resp.status(404).send({ error: "Invalid username or password" });
+  }
+});
 
 app.listen(PORT, () => {
   console.log("App is running on " + PORT);
