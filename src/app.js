@@ -88,7 +88,7 @@ app.post("/api/v1/user", async (req ,resp )=> {
   // checks if same username already exists
   const usernameUser = await User.findOne({ username});
   if(usernameUser){
-    return resp.status(404).send({error : "Username already taken"});
+    return resp.status(400).send({error : "Username already taken"});
   }
 
 
@@ -131,9 +131,9 @@ app.post("/api/v1/login", async (req ,resp )=> {
     is_active: true,});
     
   if(user){
-    resp.status(200).send({ message: "Login successfull" });
+    resp.status(200).send({ message: "Login successfull" ,data : user });
   }else{
-    resp.status(404).send({ error: "Invalid username or password" });
+    resp.status(400).send({ error: "Invalid username or password" });
   }
 });
 
