@@ -1,3 +1,4 @@
+const {Router} = require("express");
 const {
   addPost,
   getPosts,
@@ -6,6 +7,9 @@ const {
   addCommentInPost,
   deleteCommentFromPost,
 } = require("../controllers/post");
+
+const router = Router();
+
 const {
   getUser,
   getSuggestions,
@@ -14,7 +18,7 @@ const {
 } = require("../controllers/user");
 
 // root path
-app.get("/", (req, res) => {
+router.get("/", (req, res) => {
   res.status(200).send({ status: "OK", message: "App is running" });
 });
 
@@ -22,15 +26,15 @@ app.get("/", (req, res) => {
 
 /*************** USER APIs begins ********************/
 
-app.get("/api/v1/user/:id", getUser);
+router.get("/api/v1/user/:id", getUser);
 
 // suggestions api
-app.get("/api/v1/user/:id/suggestions", getSuggestions);
+router.get("/api/v1/user/:id/suggestions", getSuggestions);
 
 // login api
-app.post("/api/v1/login", loginUser);
+router.post("/api/v1/login", loginUser);
 
-app.post("/api/v1/user", signUpUser);
+router.post("/api/v1/user", signUpUser);
 /*************** USER APIs ends ********************/
 
 
@@ -38,20 +42,23 @@ app.post("/api/v1/user", signUpUser);
 /*************** POST APIs begins ********************/
 
 // read file and send content of file as response
-app.get("/api/v1/posts", getPosts);
+router.get("/api/v1/posts", getPosts);
 
 // create new record in db
-app.post("/api/v1/post", addPost);
+router.post("/api/v1/post", addPost);
 
 // like post
-app.post("/api/v1/post/:id/like", likePost);
+router.post("/api/v1/post/:id/like", likePost);
 
 // view post
-app.post("/api/v1/post/:id/view", viewPost);
+router.post("/api/v1/post/:id/view", viewPost);
 
 // add post's comment
-app.post("/api/v1/post/:id/comment", addCommentInPost);
+router.post("/api/v1/post/:id/comment", addCommentInPost);
 
 // add post's comment
-app.delete("/api/v1/post/:id/comment/:cid", deleteCommentFromPost);
+router.delete("/api/v1/post/:id/comment/:cid", deleteCommentFromPost);
 /*************** POST APIs ends ********************/
+module.exports = {
+  router,
+};

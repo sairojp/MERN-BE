@@ -1,7 +1,7 @@
 const { Post } = require("../db");
 
 const getPosts = async (req, res) => {
-  console.log("read posts");
+  console.log("read post");
   const posts = await Post.find({}, null, { sort: { post_date: -1 } });
   res.status(200).send(posts);
 };
