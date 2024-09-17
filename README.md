@@ -7,9 +7,20 @@ This repository consists of the backend application for social media app. The fr
 
 
 ## How to run the projects?
-1. Clone or Download zip and extract the project.
-2. Host a mongodb server (either in cloud or in local machine)
-3. Add database "social-media" in your mongodb server and create two collections posts and user in the database.
-4. run `node server.js` command from commant prompt (You should have already   installed NodeJS in your machine)
-5. run `npm start` command in another instance of command prompt"
-6. install all required modules as suggested in the log of `npm start` command or you can mannually install required libraries and dev dependencies from package.json file untill the App runs in your browser
+
+
+1. Clone the repo or Download zip and extract the project.
+
+2. Clone the frontend repo provided in the link above.
+
+3.  Host a mongodb server (either in cloud or in local machine)
+      
+4. Add database "social-media" in your mongodb server and create two collections posts and user in the database.
+
+5. Go into the working directory using cd.
+
+6. Run `npm install`, then start the server using `npm start`.
+
+7. Go to working directory of frontend app and  Run `npm install` then `npm start` to start the react app. 
+
+8. Sign up to create a new account and login accordingly to use the app. 
