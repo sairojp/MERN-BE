@@ -1,3 +1,6 @@
+##Social Media App
+
+
 This repository consists of the backend application for social media app. The frontend app can be found in this link: https://github.com/sairojp/MERN-FE 
 
 
